@@ -1902,3 +1902,122 @@ footer::before {
         transition-duration: 0.01ms !important;
     }
 }
+/* ==========================================
+   REFUERZO DEL MENÚ HAMBURGUESA EN MÓVIL
+   ========================================== */
+
+@media (max-width: 768px) {
+    /* Mostrar el botón hamburguesa */
+    .hamburger {
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+    
+    /* Ocultar menú clásico en móvil */
+    .menu-classic-container {
+        display: none !important;
+        visibility: hidden !important;
+    }
+    
+    /* Estilos del menú lateral */
+    .nav-menu {
+        display: block !important;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 80%;
+        max-width: 350px;
+        height: 100vh;
+        background: linear-gradient(180deg, var(--azul-profundo) 0%, var(--azul-rey) 100%);
+        transition: right 0.35s ease;
+        z-index: 1000;
+        padding-top: 80px;
+        box-shadow: -5px 0 30px rgba(0, 0, 0, 0.3);
+        overflow-y: auto;
+    }
+    
+    .nav-menu.active {
+        right: 0;
+    }
+    
+    /* Estilos de los enlaces del menú móvil */
+    .nav-links {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .nav-links li {
+        width: 100%;
+        margin: 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .nav-links a {
+        color: var(--blanco);
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 1.05rem;
+        display: block;
+        padding: 1rem 1.5rem;
+        transition: all 0.3s ease;
+    }
+    
+    .nav-links a:hover {
+        background: rgba(255, 255, 255, 0.1);
+        padding-left: 2rem;
+    }
+    
+    /* Dropdown en móvil */
+    .dropdown-content {
+        position: static;
+        display: none;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.3);
+        box-shadow: none;
+        border-radius: 0;
+        padding: 0;
+    }
+    
+    .dropdown.dropdown-open .dropdown-content {
+        display: block;
+    }
+    
+    .dropdown .dropbtn i {
+        float: right;
+        transition: transform 0.3s;
+    }
+    
+    .dropdown.dropdown-open .dropbtn i {
+        transform: rotate(180deg);
+    }
+    
+    /* Dropdown clásico en móvil */
+    .dropdown-classic .dropdown-content-classic {
+        position: static;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.08);
+        box-shadow: none;
+        border-radius: 0;
+        padding: 0;
+        display: none;
+    }
+    
+    .dropdown-classic.open .dropdown-content-classic {
+        display: block;
+    }
+    
+    .dropdown-content-classic a {
+        color: white !important;
+        padding: 0.8rem 2rem !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    /* Evitar scroll cuando el menú está abierto */
+    body.menu-open {
+        overflow: hidden;
+    }
+}

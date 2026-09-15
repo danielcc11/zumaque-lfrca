@@ -1,7 +1,9 @@
 // ============================================
 // SCRIPT COMPLETO PARA ZUMAQUE LFR
 // ============================================
-const MENU_ACTIVO = 'clasico';
+// El menú se ajusta AUTOMÁTICAMENTE según el tamaño de pantalla:
+// - Desktop (> 768px): Menú Clásico (Halliburton)
+// - Móvil (≤ 768px): Menú Hamburguesa
 // ============================================
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -24,44 +26,57 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // ==========================================
-    // 1. CONTROL DE VISIBILIDAD DEL MENÚ
+    // 1. DETECCIÓN AUTOMÁTICA DE MENÚ POR DISPOSITIVO
     // ==========================================
     var menuClassic = document.querySelector('.menu-classic-container');
     var hamburgerBtn = document.getElementById('hamburger');
     var navMenu = document.getElementById('nav-menu');
 
-    if (MENU_ACTIVO === 'clasico') {
-        if (menuClassic) {
-            menuClassic.style.display = 'flex';
-            menuClassic.style.visibility = 'visible';
-            menuClassic.style.borderTop = 'none';
-            menuClassic.style.borderBottom = 'none';
-        }
-        if (hamburgerBtn) {
-            hamburgerBtn.style.display = 'none';
-            hamburgerBtn.style.visibility = 'hidden';
-        }
-        if (navMenu) {
-            navMenu.style.display = 'none';
-            navMenu.style.visibility = 'hidden';
-        }
-    } else if (MENU_ACTIVO === 'hamburguesa') {
-        if (menuClassic) {
-            menuClassic.style.display = 'none';
-            menuClassic.style.visibility = 'hidden';
-        }
-        if (hamburgerBtn) {
-            hamburgerBtn.style.display = 'flex';
-            hamburgerBtn.style.visibility = 'visible';
-        }
-        if (navMenu) {
-            navMenu.style.display = 'block';
-            navMenu.style.visibility = 'visible';
+    function ajustarMenu() {
+        if (window.innerWidth <= 768) {
+            // MÓVIL: Mostrar hamburguesa, ocultar clásico
+            if (menuClassic) {
+                menuClassic.style.display = 'none';
+                menuClassic.style.visibility = 'hidden';
+            }
+            if (hamburgerBtn) {
+                hamburgerBtn.style.display = 'flex';
+                hamburgerBtn.style.visibility = 'visible';
+            }
+            if (navMenu) {
+                navMenu.style.display = 'block';
+                navMenu.style.visibility = 'visible';
+            }
+        } else {
+            // DESKTOP: Mostrar clásico, ocultar hamburguesa
+            if (menuClassic) {
+                menuClassic.style.display = 'flex';
+                menuClassic.style.visibility = 'visible';
+                menuClassic.style.borderTop = 'none';
+                menuClassic.style.borderBottom = 'none';
+            }
+            if (hamburgerBtn) {
+                hamburgerBtn.style.display = 'none';
+                hamburgerBtn.style.visibility = 'hidden';
+            }
+            if (navMenu) {
+                navMenu.style.display = 'none';
+                navMenu.style.visibility = 'hidden';
+                navMenu.classList.remove('active');
+            }
+            if (hamburgerBtn) hamburgerBtn.classList.remove('active');
+            document.body.classList.remove('menu-open');
         }
     }
 
+    // Ejecutar al cargar
+    ajustarMenu();
+
+    // Ejecutar al redimensionar la ventana
+    window.addEventListener('resize', ajustarMenu);
+
     // ==========================================
-    // 2. MENÚ HAMBURGUESA
+    // 2. MENÚ HAMBURGUESA (Móvil)
     // ==========================================
     var hamburger = document.getElementById('hamburger');
     var navLinks = document.querySelectorAll('.nav-links a');
@@ -87,6 +102,7 @@ document.addEventListener('DOMContentLoaded', function() {
         link.addEventListener('click', cerrarMenu);
     });
 
+    // Cerrar menú al hacer clic fuera
     document.addEventListener('click', function(event) {
         if (!navMenu) return;
         var isClickInsideMenu = navMenu.contains(event.target);
